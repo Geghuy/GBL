@@ -1,0 +1,742 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Global Assets — Admin Operating System</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg-dark: #08081A;
+      --panel-dark: #0F0F2E;
+      --card-dark: #161640;
+      --card-hover: #1E1E50;
+      --accent-orange: #FE6E46;
+      --accent-gold: #C09E5D;
+      --text-main: #FFFFFF;
+      --text-muted: rgba(255, 255, 255, 0.6);
+      --border-color: rgba(255, 255, 255, 0.08);
+      --status-green: #22C55E;
+      --status-line: #00B900;
+      --status-fb: #1877F2;
+      --status-ig: #E4405F;
+      --status-web: #FE6E46;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; font-family: "DM Sans", sans-serif; }
+    body { background: var(--bg-dark); color: var(--text-main); height: 100vh; overflow: hidden; display: flex; }
+
+    /* ================= LOGIN SCREEN ================= */
+    .login-overlay {
+      position: fixed; inset: 0; background: var(--bg-dark); z-index: 99999;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .login-card {
+      background: var(--panel-dark); border: 1px solid var(--border-color);
+      padding: 40px; border-radius: 16px; width: 380px; text-align: center;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+    }
+    .login-card img { height: 32px; margin-bottom: 20px; }
+    .login-card h2 { font: 500 24px "Playfair Display"; margin-bottom: 8px; }
+    .login-card p { font-size: 12px; color: var(--text-muted); margin-bottom: 25px; }
+    .input-field {
+      width: 100%; background: var(--card-dark); border: 1px solid var(--border-color);
+      padding: 12px 16px; border-radius: 8px; color: #fff; margin-bottom: 15px; outline: none;
+    }
+    .btn-submit {
+      width: 100%; background: var(--accent-orange); color: var(--bg-dark); border: none;
+      padding: 12px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s;
+    }
+    .btn-submit:hover { opacity: 0.9; }
+
+    /* ================= MAIN DASHBOARD LAYOUT ================= */
+    .app-container { display: flex; width: 100vw; height: 100vh; }
+    
+    /* Sidebar */
+    .sidebar {
+      width: 260px; background: var(--panel-dark); border-right: 1px solid var(--border-color);
+      display: flex; flex-direction: column; padding: 25px 15px; flex-shrink: 0;
+    }
+    .brand-header { display: flex; align-items: center; gap: 10px; padding: 0 10px 25px; border-bottom: 1px solid var(--border-color); }
+    .brand-header img { height: 26px; }
+    
+    .nav-list { list-style: none; margin-top: 25px; display: flex; flex-direction: column; gap: 6px; }
+    .nav-btn {
+      display: flex; align-items: center; gap: 12px; width: 100%; padding: 12px 16px;
+      background: transparent; border: none; border-radius: 8px; color: var(--text-muted);
+      font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+      cursor: pointer; transition: 0.2s; text-align: left;
+    }
+    .nav-btn:hover, .nav-btn.active { background: rgba(254, 110, 70, 0.12); color: var(--accent-orange); }
+
+    .user-footer {
+      margin-top: auto; padding-top: 20px; border-top: 1px solid var(--border-color);
+      display: flex; justify-content: space-between; align-items: center; font-size: 11px;
+    }
+
+    /* Content Area */
+    .content-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; }
+    .top-bar {
+      height: 70px; border-bottom: 1px solid var(--border-color); padding: 0 35px;
+      display: flex; justify-content: space-between; align-items: center; background: var(--panel-dark);
+    }
+    .page-title { font: 500 22px "Playfair Display"; }
+
+    .view-panel { display: none; padding: 35px; overflow-y: auto; height: calc(100vh - 70px); }
+    .view-panel.active { display: block; }
+
+    /* KPI Metrics Cards */
+    .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 30px; }
+    .metric-card {
+      background: var(--card-dark); border: 1px solid var(--border-color);
+      padding: 20px; border-radius: 12px; display: flex; flex-direction: column; gap: 8px;
+    }
+    .metric-card span { font-size: 11px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.08em; }
+    .metric-card h3 { font: 500 28px "Playfair Display"; color: var(--text-main); }
+    .metric-card .trend { font-size: 10px; color: var(--status-green); }
+
+    /* Chat Application UI */
+    .chat-wrapper {
+      display: grid; grid-template-columns: 320px 1fr; height: calc(100vh - 140px);
+      background: var(--card-dark); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden;
+    }
+    .chat-list-panel { border-right: 1px solid var(--border-color); display: flex; flex-direction: column; }
+    .chat-channel-filter { display: flex; border-bottom: 1px solid var(--border-color); }
+    .filter-tab {
+      flex: 1; padding: 12px 0; background: none; border: none; color: var(--text-muted);
+      font-size: 9px; font-weight: 700; cursor: pointer; border-bottom: 2px solid transparent;
+    }
+    .filter-tab.active { color: var(--accent-orange); border-bottom-color: var(--accent-orange); }
+
+    .chat-items { overflow-y: auto; flex: 1; }
+    .chat-item {
+      display: flex; gap: 12px; padding: 16px; border-bottom: 1px solid var(--border-color);
+      cursor: pointer; transition: 0.2s;
+    }
+    .chat-item:hover, .chat-item.active { background: var(--card-hover); }
+    .avatar {
+      width: 40px; height: 40px; border-radius: 50%; background: var(--accent-gold);
+      color: #000; font-weight: bold; display: flex; align-items: center; justify-content: center; position: relative; flex-shrink: 0;
+    }
+    .badge {
+      position: absolute; bottom: -2px; right: -2px; width: 14px; height: 14px;
+      border-radius: 50%; font-size: 8px; display: flex; align-items: center; justify-content: center; color: #fff;
+    }
+    .badge-line { background: var(--status-line); }
+    .badge-fb { background: var(--status-fb); }
+    .badge-ig { background: var(--status-ig); }
+    .badge-web { background: var(--status-web); }
+
+    .chat-meta h4 { font-size: 13px; margin-bottom: 4px; }
+    .chat-meta p { font-size: 11px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 200px; }
+
+    .chat-room { display: flex; flex-direction: column; background: var(--panel-dark); }
+    .chat-room-header { padding: 18px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; }
+    .chat-messages { flex: 1; padding: 25px; overflow-y: auto; display: flex; flex-direction: column; gap: 12px; }
+    .msg-bubble { max-width: 65%; padding: 12px 16px; border-radius: 12px; font-size: 12px; line-height: 1.5; }
+    .msg-bubble.in { background: rgba(255,255,255,0.08); align-self: flex-start; }
+    .msg-bubble.out { background: var(--accent-orange); color: var(--bg-dark); align-self: flex-end; font-weight: 500; }
+    .msg-bubble.bot { background: rgba(192, 158, 93, 0.2); border: 1px solid var(--accent-gold); align-self: flex-start; }
+
+    .chat-input-bar { padding: 18px 25px; border-top: 1px solid var(--border-color); display: flex; gap: 12px; }
+    .chat-input-bar input { flex: 1; background: var(--card-dark); border: 1px solid var(--border-color); padding: 12px 16px; border-radius: 8px; color: #fff; outline: none; }
+
+    /* Tables & Forms */
+    .table-card { background: var(--card-dark); border: 1px solid var(--border-color); border-radius: 12px; padding: 25px; margin-bottom: 25px; }
+    .admin-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .admin-table th, .admin-table td { padding: 14px; text-align: left; border-bottom: 1px solid var(--border-color); font-size: 12px; }
+    .admin-table th { color: var(--text-muted); text-transform: uppercase; font-size: 10px; letter-spacing: 0.1em; }
+    .thumb { width: 60px; height: 38px; object-fit: cover; border-radius: 4px; }
+
+    .btn-action { background: var(--accent-orange); color: var(--bg-dark); border: none; padding: 8px 16px; border-radius: 6px; font-weight: 700; cursor: pointer; font-size: 11px; text-transform: uppercase; }
+    .btn-danger { background: #EF4444; color: #fff; }
+
+    .modal-overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.8); z-index: 1000; display: none; align-items: center; justify-content: center; }
+    .modal-overlay.open { display: flex; }
+    .modal-box { background: var(--panel-dark); border: 1px solid var(--border-color); padding: 35px; border-radius: 12px; width: 550px; position: relative; }
+    .modal-close { position: absolute; right: 20px; top: 20px; background: none; border: none; color: #fff; font-size: 20px; cursor: pointer; }
+  </style>
+</head>
+
+<body>
+
+  <!-- ================= LOGIN OVERLAY ================= -->
+  <div class="login-overlay" id="loginOverlay">
+    <div class="login-card">
+      <img src="GBL.png" alt="Global Assets">
+      <h2>Admin Suite Login</h2>
+      <p>Authorized Executive Personnel Only</p>
+      <form onsubmit="event.preventDefault(); handleLogin();">
+        <input type="text" class="input-field" placeholder="Username" id="loginUser" required value="admin">
+        <input type="password" class="input-field" placeholder="Passcode" id="loginPass" required value="1234">
+        <button class="btn-submit" type="submit">Authenticate Session ↗</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ================= MAIN APP ================= -->
+  <div class="app-container">
+
+    <!-- Sidebar Navigation -->
+    <aside class="sidebar">
+      <div class="brand-header">
+        <img src="GBL.png" alt="Global Assets">
+        <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent-gold);">SYSTEM</span>
+      </div>
+
+      <ul class="nav-list">
+        <li>
+          <button class="nav-btn active" onclick="switchNav('overview')">
+            <span>📊</span> Executive Overview
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" onclick="switchNav('chat')">
+            <span>💬</span> Live Inbox (Omnichannel)
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" onclick="switchNav('bot')">
+            <span>🤖</span> Chatbot Training Rules
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" onclick="switchNav('email')">
+            <span>✉️</span> Email Campaign Suite
+          </button>
+        </li>
+        <li>
+          <button class="nav-btn" onclick="switchNav('cms')">
+            <span>🗓️</span> Highlight Events CMS
+          </button>
+        </li>
+      </ul>
+
+      <div class="user-footer">
+        <div>
+          <strong style="display:block; font-size:12px;">Advisor Ops</strong>
+          <span style="color:var(--text-muted);">Role: Administrator</span>
+        </div>
+        <a href="index.html" target="_blank" style="color: var(--accent-orange); text-decoration: none;">Site ↗</a>
+      </div>
+    </aside>
+
+    <!-- Main Content Area -->
+    <div class="content-area">
+
+      <!-- Top Header Bar -->
+      <header class="top-bar">
+        <h1 class="page-title" id="pageTitle">Executive Overview</h1>
+        <div style="font-size: 11px; display: flex; align-items: center; gap: 8px;">
+          <span style="width: 8px; height: 8px; background: var(--status-green); border-radius: 50%;"></span>
+          System Operational · Live Sync Active
+        </div>
+      </header>
+
+      <!-- PANELS -->
+
+      <!-- 1. EXECUTIVE OVERVIEW PANEL -->
+      <section class="view-panel active" id="panel-overview">
+        <div class="metrics-grid">
+          <div class="metric-card">
+            <span>Total Enquiries (30D)</span>
+            <h3>142</h3>
+            <span class="trend">↑ +18% vs last month</span>
+          </div>
+          <div class="metric-card">
+            <span>Active Conversations</span>
+            <h3>18</h3>
+            <span class="trend" style="color:var(--accent-gold);">4 Unread Messages</span>
+          </div>
+          <div class="metric-card">
+            <span>Email Subscribers</span>
+            <h3>2,850</h3>
+            <span class="trend">↑ +120 new this week</span>
+          </div>
+          <div class="metric-card">
+            <span>CMS Active Slides</span>
+            <h3 id="overviewEventCount">3</h3>
+            <span class="trend">Live on Homepage</span>
+          </div>
+        </div>
+
+        <div class="table-card">
+          <h3 style="font: 500 18px 'Playfair Display'; margin-bottom: 15px;">Recent Client Leads (Web Consultations)</h3>
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Client Name</th>
+                <th>Target Interest</th>
+                <th>Investment Budget</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>12 Aug 2026</td>
+                <td>Khun Supphasit T.</td>
+                <td>London Prime Residences</td>
+                <td>USD 2M+</td>
+                <td><span style="color:var(--status-green)">Assigned to Advisor</span></td>
+              </tr>
+              <tr>
+                <td>11 Aug 2026</td>
+                <td>Mr. David Sterling</td>
+                <td>Dubai Golden Visa</td>
+                <td>USD 750k–2M</td>
+                <td><span style="color:var(--accent-orange)">Pending Follow-up</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 2. OMNICHANNEL LIVE CHAT PANEL -->
+      <section class="view-panel" id="panel-chat" style="padding: 20px;">
+        <div class="chat-wrapper">
+          <div class="chat-list-panel">
+            <div class="chat-channel-filter">
+              <button class="filter-tab active" onclick="filterChats('all')">ALL</button>
+              <button class="filter-tab" onclick="filterChats('web')">WEB CHAT</button>
+              <button class="filter-tab" onclick="filterChats('line')">LINE OA</button>
+              <button class="filter-tab" onclick="filterChats('fb')">MESSENGER</button>
+              <button class="filter-tab" onclick="filterChats('ig')">INSTAGRAM</button>
+            </div>
+            <div class="chat-items" id="chatItemsList">
+              <!-- Dynamic Chat Conversation List -->
+            </div>
+          </div>
+
+          <div class="chat-room">
+            <div class="chat-room-header" id="activeChatHeader">
+              <div>
+                <h3 style="margin:0; font-size:15px;" id="chatName">Select a Conversation</h3>
+                <span style="font-size:11px; color:var(--text-muted);" id="chatMeta">No active chat selected</span>
+              </div>
+            </div>
+
+            <div class="chat-messages" id="chatMessagesWindow">
+              <div style="text-align:center; color:var(--text-muted); margin-top:120px; font-size:12px;">
+                Choose a client conversation on the left panel to display messages and send replies.
+              </div>
+            </div>
+
+            <div class="chat-input-bar">
+              <input type="text" id="chatReplyText" placeholder="Type private message reply..." onkeydown="if(event.key==='Enter')sendChatReply()">
+              <button class="btn-action" onclick="sendChatReply()">Send ↗</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- 3. CHATBOT TRAINING RULES PANEL -->
+      <section class="view-panel" id="panel-bot">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
+          <p style="font-size:13px; color:var(--text-muted);">Configure keywords and automated replies for the homepage Chatbot Concierge.</p>
+          <button class="btn-action" onclick="openAddRuleModal()">+ Add New Keyword Rule</button>
+        </div>
+
+        <div class="table-card">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Target Keywords</th>
+                <th>Automated Bot Response</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="botRulesTableBody">
+              <!-- Rules populated dynamically -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- 4. EMAIL CAMPAIGN SUITE PANEL -->
+      <section class="view-panel" id="panel-email">
+        <div class="table-card" style="max-width: 850px;">
+          <h3 style="font: 500 20px 'Playfair Display'; margin-bottom: 20px;">Dispatch Private Email Broadcast</h3>
+          
+          <form onsubmit="event.preventDefault(); launchEmailBroadcast();">
+            <div style="margin-bottom:20px;">
+              <label style="display:block; font-size:11px; text-transform:uppercase; margin-bottom:8px; color:var(--text-muted);">Audience Segment</label>
+              <select id="emailSegment" class="input-field">
+                <option>All Private Subscribers (2,850 Clients)</option>
+                <option>High Net Worth Segment (> USD 2M)</option>
+                <option>Citizenship & Residency Interested List</option>
+              </select>
+            </div>
+
+            <div style="margin-bottom:20px;">
+              <label style="display:block; font-size:11px; text-transform:uppercase; margin-bottom:8px; color:var(--text-muted);">Subject Line</label>
+              <input type="text" id="emailSubject" class="input-field" placeholder="e.g. Private Invitation: London & Dubai Investment Forum AUG 2026" required>
+            </div>
+
+            <div style="margin-bottom:20px;">
+              <label style="display:block; font-size:11px; text-transform:uppercase; margin-bottom:8px; color:var(--text-muted);">Email Content Body</label>
+              <textarea id="emailBody" class="input-field" style="height:180px; resize:vertical;" placeholder="Dear Client,&#10;&#10;We are pleased to present this month's curated opportunities..." required></textarea>
+            </div>
+
+            <button class="btn-action" type="submit" style="padding: 12px 24px;">Launch Email Campaign 🚀</button>
+          </form>
+        </div>
+      </section>
+
+      <!-- 5. HIGHLIGHT EVENTS CMS PANEL -->
+      <section class="view-panel" id="panel-cms">
+        <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 25px;">
+          <p style="font-size:13px; color:var(--text-muted);">Manage Carousel Slides shown on Homepage Highlight Events section.</p>
+          <button class="btn-action" onclick="openAddModal()">+ Add New Event Slide</button>
+        </div>
+
+        <div class="table-card">
+          <table class="admin-table">
+            <thead>
+              <tr>
+                <th>Preview</th>
+                <th>Tag / Eyebrow</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody id="cmsTableBody">
+              <!-- CMS Events dynamically populated -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+    </div>
+  </div>
+
+  <!-- ADD EVENT MODAL -->
+  <div class="modal-overlay" id="addModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeAddModal()">×</button>
+      <h2 style="font: 500 24px 'Playfair Display'; margin-bottom: 20px;">Add New Highlight Event Slide</h2>
+      
+      <form onsubmit="event.preventDefault(); createCMSEvent();">
+        <div style="margin-bottom:15px;">
+          <label style="display:block; font-size:10px; text-transform:uppercase; margin-bottom:6px; color:var(--text-muted);">Eyebrow Tag</label>
+          <input type="text" id="newTag" class="input-field" placeholder="e.g. Highlight event · 04" required>
+        </div>
+        <div style="margin-bottom:15px;">
+          <label style="display:block; font-size:10px; text-transform:uppercase; margin-bottom:6px; color:var(--text-muted);">Title (Supports HTML &lt;em&gt; tag)</label>
+          <input type="text" id="newTitle" class="input-field" placeholder="e.g. Bangkok Private &lt;em&gt;Showcase.&lt;/em&gt;" required>
+        </div>
+        <div style="margin-bottom:15px;">
+          <label style="display:block; font-size:10px; text-transform:uppercase; margin-bottom:6px; color:var(--text-muted);">Short Description</label>
+          <textarea id="newDesc" class="input-field" style="height:80px;" placeholder="Event summary..." required></textarea>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; font-size:10px; text-transform:uppercase; margin-bottom:6px; color:var(--text-muted);">Image Cover URL</label>
+          <input type="url" id="newImg" class="input-field" placeholder="https://images.unsplash.com/..." required>
+        </div>
+
+        <button class="btn-action" type="submit" style="width:100%; padding: 12px;">Publish Slide to Website ↗</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- ADD BOT RULE MODAL -->
+  <div class="modal-overlay" id="addRuleModal">
+    <div class="modal-box">
+      <button class="modal-close" onclick="closeAddRuleModal()">×</button>
+      <h2 style="font: 500 24px 'Playfair Display'; margin-bottom: 20px;">Add Chatbot Keyword Rule</h2>
+      
+      <form onsubmit="event.preventDefault(); saveBotRule();">
+        <div style="margin-bottom:15px;">
+          <label style="display:block; font-size:10px; text-transform:uppercase; margin-bottom:6px; color:var(--text-muted);">Keywords (comma separated)</label>
+          <input type="text" id="newRuleKeywords" class="input-field" placeholder="e.g. price, cost, ราคา" required>
+        </div>
+        <div style="margin-bottom:20px;">
+          <label style="display:block; font-size:10px; text-transform:uppercase; margin-bottom:6px; color:var(--text-muted);">Automated Response</label>
+          <textarea id="newRuleResponse" class="input-field" style="height:100px;" placeholder="Enter reply message..." required></textarea>
+        </div>
+
+        <button class="btn-action" type="submit" style="width:100%; padding: 12px;">Save Rule ↗</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- DASHBOARD JAVASCRIPT SYSTEM -->
+  <script>
+    // 1. AUTHENTICATION LOGIC
+    function handleLogin() {
+      const u = document.getElementById('loginUser').value;
+      const p = document.getElementById('loginPass').value;
+
+      if (u === 'admin' && p === '1234') {
+        document.getElementById('loginOverlay').style.display = 'none';
+      } else {
+        alert('Invalid credentials. Access denied.');
+      }
+    }
+
+    // 2. NAVIGATION SYSTEM
+    function switchNav(panelKey) {
+      document.querySelectorAll('.view-panel').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+
+      document.getElementById('panel-' + panelKey).classList.add('active');
+      event.currentTarget.classList.add('active');
+
+      const titles = {
+        overview: 'Executive Overview',
+        chat: 'Omnichannel Live Chat Center',
+        bot: 'Chatbot Keyword Training Manager',
+        email: 'Private Email Campaign Suite',
+        cms: 'Highlight Events CMS Manager'
+      };
+      document.getElementById('pageTitle').textContent = titles[panelKey];
+    }
+
+    // 3. OMNICHANNEL CHAT SYSTEM
+    let chatData = [
+      { id: 99, name: 'Web Visitor (Live)', platform: 'web', badge: 'badge-web', time: 'Just Now', last: 'Exploring Website Concierge...', messages: [] },
+      { id: 1, name: 'Khun Thanavat S.', platform: 'line', badge: 'badge-line', time: '10:42 AM', last: 'Interested in London prime residences.', messages: [
+        { type: 'in', text: 'Hello, I received your briefing on London property.' },
+        { type: 'in', text: 'Interested in London prime residences for investment.' }
+      ]},
+      { id: 2, name: 'Sarah Jenkins', platform: 'fb', badge: 'badge-fb', time: '09:15 AM', last: 'Can you send details on Dubai Golden Visa?', messages: [
+        { type: 'in', text: 'Hi, can you send details on Dubai Golden Visa requirements?' }
+      ]},
+      { id: 3, name: 'Alex Wong', platform: 'ig', badge: 'badge-ig', time: 'Yesterday', last: 'When is the next Investment Night?', messages: [
+        { type: 'in', text: 'When is the next Investment Night event in Bangkok?' }
+      ]}
+    ];
+
+    let currentChat = null;
+
+    function syncWebChatHistory() {
+      const history = JSON.parse(localStorage.getItem('gbl_web_chat_history') || '[]');
+      if (history.length > 0) {
+        const webChat = chatData.find(c => c.id === 99);
+        if (webChat) {
+          webChat.messages = history.map(h => ({
+            type: h.sender === 'user' ? 'in' : (h.sender === 'bot' ? 'bot' : 'out'),
+            text: h.text
+          }));
+          const last = history[history.length - 1];
+          if (last) webChat.last = last.text;
+        }
+      }
+    }
+
+    function renderChatList(filter = 'all') {
+      syncWebChatHistory();
+      const container = document.getElementById('chatItemsList');
+      container.innerHTML = '';
+
+      chatData.filter(c => filter === 'all' || c.platform === filter).forEach(c => {
+        container.innerHTML += `
+          <div class="chat-item ${currentChat && currentChat.id === c.id ? 'active' : ''}" onclick="openChat(${c.id})">
+            <div class="avatar">
+              ${c.name.charAt(0)}
+              <div class="badge ${c.badge}">${c.platform === 'line' ? 'L' : (c.platform === 'fb' ? 'F' : (c.platform === 'ig' ? 'I' : 'W'))}</div>
+            </div>
+            <div class="chat-meta">
+              <h4>${c.name}</h4>
+              <p>${c.last}</p>
+            </div>
+          </div>
+        `;
+      });
+    }
+
+    function openChat(id) {
+      currentChat = chatData.find(c => c.id === id);
+      document.getElementById('chatName').textContent = currentChat.name;
+      document.getElementById('chatMeta').textContent = `Via ${currentChat.platform.toUpperCase()} · ${currentChat.time}`;
+
+      const win = document.getElementById('chatMessagesWindow');
+      win.innerHTML = '';
+
+      currentChat.messages.forEach(m => {
+        win.innerHTML += `<div class="msg-bubble ${m.type}">${m.text}</div>`;
+      });
+
+      renderChatList();
+    }
+
+    function filterChats(plat) {
+      document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+      event.currentTarget.classList.add('active');
+      renderChatList(plat);
+    }
+
+    function sendChatReply() {
+      const input = document.getElementById('chatReplyText');
+      const text = input.value.trim();
+      if (!text || !currentChat) return;
+
+      currentChat.messages.push({ type: 'out', text: text });
+      currentChat.last = text;
+
+      // ถ้าเปิดแชตเว็บอยู่ ให้บันทึกส่งกลับหน้าเว็บด้วย
+      if (currentChat.id === 99) {
+        let history = JSON.parse(localStorage.getItem('gbl_web_chat_history') || '[]');
+        history.push({ sender: 'admin', text: text, time: new Date().toLocaleTimeString() });
+        localStorage.setItem('gbl_web_chat_history', JSON.stringify(history));
+      }
+
+      input.value = '';
+      openChat(currentChat.id);
+    }
+
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'gbl_web_chat_history') {
+        renderChatList();
+        if (currentChat && currentChat.id === 99) {
+          openChat(99);
+        }
+      }
+    });
+
+    // 4. CHATBOT TRAINING SYSTEM
+    const defaultBotRules = [
+      { keywords: ['ราคา', 'price', 'cost'], response: 'ราคาและเงื่อนไขการลงทุนเริ่มต้นที่ USD 100k - 2M+ ขึ้นอยู่กับโครงการและประเทศที่คุณสนใจครับ' },
+      { keywords: ['london', 'ลอนดอน', 'uk'], response: 'สำหรับอสังหาริมทรัพย์ใน London เรามี Prime Residences และ Off-market opportunities ย่านใจกลางเมืองครับ' },
+      { keywords: ['dubai', 'ดูไบ', 'golden visa'], response: 'โปรแกรม Dubai Golden Visa ให้สิทธิพำนักระยะยาวเมื่อลงทุนในอสังหาริมทรัพย์เริ่มต้นประมาณ 2M AED ครับ' }
+    ];
+
+    function getBotRules() {
+      const stored = localStorage.getItem('gbl_bot_rules');
+      return stored ? JSON.parse(stored) : defaultBotRules;
+    }
+
+    function renderBotRulesTable() {
+      const rules = getBotRules();
+      const tbody = document.getElementById('botRulesTableBody');
+      if (!tbody) return;
+      tbody.innerHTML = '';
+
+      rules.forEach((r, i) => {
+        tbody.innerHTML += `
+          <tr>
+            <td><strong style="color:var(--accent-orange);">${r.keywords.join(', ')}</strong></td>
+            <td>${r.response}</td>
+            <td><button class="btn-action btn-danger" onclick="deleteBotRule(${i})">Delete</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function openAddRuleModal() { document.getElementById('addRuleModal').classList.add('open'); }
+    function closeAddRuleModal() { document.getElementById('addRuleModal').classList.remove('open'); }
+
+    function saveBotRule() {
+      const kw = document.getElementById('newRuleKeywords').value.split(',').map(k => k.trim()).filter(k => k);
+      const resp = document.getElementById('newRuleResponse').value;
+
+      const rules = getBotRules();
+      rules.push({ keywords: kw, response: resp });
+      localStorage.setItem('gbl_bot_rules', JSON.stringify(rules));
+
+      document.getElementById('newRuleKeywords').value = '';
+      document.getElementById('newRuleResponse').value = '';
+
+      closeAddRuleModal();
+      renderBotRulesTable();
+      alert('Chatbot keyword rule updated!');
+    }
+
+    function deleteBotRule(index) {
+      if (confirm('Delete this keyword rule?')) {
+        const rules = getBotRules();
+        rules.splice(index, 1);
+        localStorage.setItem('gbl_bot_rules', JSON.stringify(rules));
+        renderBotRulesTable();
+      }
+    }
+
+    // 5. EMAIL CAMPAIGN SYSTEM
+    function launchEmailBroadcast() {
+      const subj = document.getElementById('emailSubject').value;
+      const seg = document.getElementById('emailSegment').value;
+      alert(` Broadcast Dispatched Successfully!\n\nSubject: "${subj}"\nSegment: ${seg}`);
+      document.getElementById('emailSubject').value = '';
+      document.getElementById('emailBody').value = '';
+    }
+
+    // 6. CMS EVENT MANAGER SYSTEM
+    const defaultCMSEvents = [
+      { tag: 'Highlight event · 01', title: 'Global<br><em>Investment Night.</em>', desc: 'A private evening for clients exploring international property, residency and investment migration opportunities.', img: 'https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1800&q=90' },
+      { tag: 'Highlight event · 02', title: 'London Prime<br><em>Private Showcase.</em>', desc: 'Exclusive off-market residential developments in Central London, curated for high-net-worth investors.', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1800&q=90' },
+      { tag: 'Highlight event · 03', title: 'Dubai Golden Visa<br><em>Executive Forum.</em>', desc: 'Direct consultation with legal & tax specialists on UAE strategic residency and wealth structuring.', img: 'https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1800&q=90' }
+    ];
+
+    function getEvents() {
+      const s = localStorage.getItem('gbl_cms_events');
+      return s ? JSON.parse(s) : defaultCMSEvents;
+    }
+
+    function renderCMS() {
+      const events = getEvents();
+      const tbody = document.getElementById('cmsTableBody');
+      tbody.innerHTML = '';
+
+      document.getElementById('overviewEventCount').textContent = events.length;
+
+      events.forEach((ev, i) => {
+        tbody.innerHTML += `
+          <tr>
+            <td><img src="${ev.img}" class="thumb"></td>
+            <td>${ev.tag}</td>
+            <td>${ev.title}</td>
+            <td>${ev.desc}</td>
+            <td><button class="btn-action btn-danger" onclick="removeEvent(${i})">Delete</button></td>
+          </tr>
+        `;
+      });
+    }
+
+    function openAddModal() { document.getElementById('addModal').classList.add('open'); }
+    function closeAddModal() { document.getElementById('addModal').classList.remove('open'); }
+
+    function createCMSEvent() {
+      const events = getEvents();
+      events.push({
+        tag: document.getElementById('newTag').value,
+        title: document.getElementById('newTitle').value,
+        desc: document.getElementById('newDesc').value,
+        img: document.getElementById('newImg').value
+      });
+
+      localStorage.setItem('gbl_cms_events', JSON.stringify(events));
+
+      document.getElementById('newTag').value = '';
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+      document.getElementById('newImg').value = '';
+
+      closeAddModal();
+      renderCMS();
+      alert('Event slide live-updated on website!');
+    }
+
+    function removeEvent(index) {
+      if (confirm('Delete this event slide?')) {
+        const events = getEvents();
+        events.splice(index, 1);
+        localStorage.setItem('gbl_cms_events', JSON.stringify(events));
+        renderCMS();
+      }
+    }
+
+    // INITIALIZATION
+    renderChatList();
+    renderBotRulesTable();
+    renderCMS();
+  </script>
+</body>
+
+</html>
