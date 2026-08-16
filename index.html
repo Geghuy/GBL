@@ -379,30 +379,60 @@
     </div>
   </section>
   
-  <!-- Section 02: Advisory -->
+ <!-- Section 02: Advisory (Horizontal Layout with Images) -->
   <section class="dark" id="advisory">
     <div class="wrap reveal">
       <div class="ey">02 — Advisory</div>
-      <h2 class="title">What we<br><em>orchestrate.</em></h2>
-      <div class="services">
-        <div class="service" onclick="openModal('property')">
-          <span>01</span>
-          <h3>International Property</h3>
-          <p>Prime residences, income-producing assets and selected opportunities across strategic global markets.</p>
-          <b class="arrow">↗</b>
+      <h2 class="title">OUR<br><em>Services</em></h2>
+      
+      <!-- Horizontal Services Grid -->
+      <div class="services-horizontal">
+        
+        <!-- Card 1: International Property -->
+        <div class="service-h-card" onclick="openModal('property')">
+          <div class="service-img-box" style="background-image: url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=90');">
+            <span class="service-num">01</span>
+          </div>
+          <div class="service-info">
+            <h3>International Property</h3>
+            <p>Prime residences, income-producing assets and selected opportunities across strategic global markets.</p>
+            <div class="service-link">
+              <span>Explore route</span>
+              <b class="arrow">↗</b>
+            </div>
+          </div>
         </div>
-        <div class="service" onclick="openModal('citizenship')">
-          <span>02</span>
-          <h3>Citizenship by Investment</h3>
-          <p>Government-approved investment migration routes for eligible investors and families.</p>
-          <b class="arrow">↗</b>
+
+        <!-- Card 2: Citizenship by Investment -->
+        <div class="service-h-card" onclick="openModal('citizenship')">
+          <div class="service-img-box" style="background-image: url('https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=90');">
+            <span class="service-num">02</span>
+          </div>
+          <div class="service-info">
+            <h3>Citizenship by Investment</h3>
+            <p>Government-approved investment migration routes for eligible investors and families.</p>
+            <div class="service-link">
+              <span>Explore route</span>
+              <b class="arrow">↗</b>
+            </div>
+          </div>
         </div>
-        <div class="service" onclick="openModal('residency')">
-          <span>03</span>
-          <h3>Long-Term Residency</h3>
-          <p>Residency strategies aligned to lifestyle, education, business and legacy objectives.</p>
-          <b class="arrow">↗</b>
+
+        <!-- Card 3: Long-Term Residency -->
+        <div class="service-h-card" onclick="openModal('residency')">
+          <div class="service-img-box" style="background-image: url('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=90');">
+            <span class="service-num">03</span>
+          </div>
+          <div class="service-info">
+            <h3>Long-Term Residency</h3>
+            <p>Residency strategies aligned to lifestyle, education, business and legacy objectives.</p>
+            <div class="service-link">
+              <span>Explore route</span>
+              <b class="arrow">↗</b>
+            </div>
+          </div>
         </div>
+
       </div>
     </div>
   </section>
@@ -454,43 +484,91 @@
     </div>
   </section>
 
-  <!-- Section 05: Projects -->
+  <!-- Section 05: Minimal 3-Card Carousel -->
   <section class="white" id="projects">
     <div class="wrap reveal">
-      <div class="ey">05 — Private opportunities</div>
+      
       <div class="projectHead">
-        <h2 class="title">Selected<br><em>projects.</em></h2>
-        <p class="muted">A premium showcase for featured developments, off-market opportunities and invitation-only events.</p>
-      </div>
-      <div class="projects">
-        <div class="photo">
-          <img src="https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=90" alt="Architecture">
-          <div class="photoText big">
-            <span class="tag">Featured Project · London</span>
-            <h3>Architecture<br>with a point of view.</h3>
-            <p>Selected opportunities for international buyers, with project details, gallery and enquiry.</p>
-            <button class="pill" onclick="openModal('project')">View opportunity ↗</button>
+  <div class="ey">05 — Private opportunities</div>
+  <h2 class="title">Selected<br><em>projects.</em></h2>
+  <p class="muted">A premium showcase for featured developments, off-market opportunities and invitation-only events.</p>
+</div>
+
+      <!-- Carousel Frame with Fade Masks -->
+      <div class="flat-carousel-wrapper">
+        
+        <!-- Side Arrows (Overlayed) -->
+        <button class="flat-arrow left" onclick="prevFlatSlide()" aria-label="Previous">←</button>
+        <button class="flat-arrow right" onclick="nextFlatSlide()" aria-label="Next">→</button>
+
+        <!-- Track Container -->
+        <div class="flat-carousel-viewport">
+          <div class="flat-carousel-track" id="flatTrack">
+            
+            <!-- Card 1 -->
+            <div class="flat-card">
+              <div class="flat-card-img" style="background-image: url('https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=90');">
+                <span class="slide-badge">Featured Project · London</span>
+              </div>
+              <div class="flat-card-body">
+                <h3>Architecture with a point of view.</h3>
+                <p>Selected opportunities for international buyers, with project details, gallery and enquiry.</p>
+                <button class="pill" onclick="openModal('project')">View opportunity ↗</button>
+              </div>
+            </div>
+
+            <!-- Card 2 -->
+            <div class="flat-card">
+              <div class="flat-card-img" style="background-image: url('https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90');">
+                <span class="slide-badge">Private Event · Global</span>
+              </div>
+              <div class="flat-card-body">
+                <h3>Global Investment Night Showcase.</h3>
+                <p>Exclusive access to international residency migration and strategic tax consultations.</p>
+                <button class="pill" onclick="openModal('event')">Reserve interest ↗</button>
+              </div>
+            </div>
+
+            <!-- Card 3 -->
+            <div class="flat-card">
+              <div class="flat-card-img" style="background-image: url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90');">
+                <span class="slide-badge">Commercial · Prime Asset</span>
+              </div>
+              <div class="flat-card-body">
+                <h3>The Next High-Yield Commercial Asset.</h3>
+                <p>Premium commercial spaces and income-producing assets across prime global markets.</p>
+                <button class="pill" onclick="openModal('commercial')">Explore portfolio ↗</button>
+              </div>
+            </div>
+
+            <!-- Card 4 (Extra) -->
+            <div class="flat-card">
+              <div class="flat-card-img" style="background-image: url('https://images.unsplash.com/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=1200&q=90');">
+                <span class="slide-badge">Off-Market · Dubai</span>
+              </div>
+              <div class="flat-card-body">
+                <h3>Waterfront Estates & Golden Visa.</h3>
+                <p>Direct allocation of luxury seafront villas qualifying for long-term UAE residency.</p>
+                <button class="pill" onclick="openModal('dubai')">Enquire details ↗</button>
+              </div>
+            </div>
+
           </div>
         </div>
-        <div>
-          <div class="photo small">
-            <img src="https://images.unsplash.com/photo-1507679799987-c73779587ccf?auto=format&fit=crop&w=1200&q=90" alt="Private Event">
-            <div class="photoText">
-              <span class="tag">Private Event</span>
-              <h3>Global Investment Night.</h3>
-              <button class="pill" onclick="openModal('event')">Reserve interest</button>
-            </div>
-          </div>
-          <div class="photo small" style="margin-top:12px">
-            <img src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=90" alt="Commercial">
-            <div class="photoText">
-              <span class="tag">Commercial</span>
-              <h3>The next asset.</h3>
-              <button class="pill" onclick="openModal('commercial')">Explore ↗</button>
-            </div>
-          </div>
+
+        <!-- Fade Side Overlays (ตามภาพ) -->
+        <div class="fade-mask left"></div>
+        <div class="fade-mask right"></div>
+
+        <!-- Pagination Dots -->
+        <div class="flat-dots" id="flatDots">
+          <span class="f-dot active" onclick="setFlatSlide(0)"></span>
+          <span class="f-dot" onclick="setFlatSlide(1)"></span>
+          <span class="f-dot" onclick="setFlatSlide(2)"></span>
         </div>
+
       </div>
+
     </div>
   </section>
 

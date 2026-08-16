@@ -7,25 +7,25 @@ const r = document.getElementById('ring');
 const bg = document.getElementById('bg');
 
 // Scroll behavior for Navbar
-addEventListener('scroll', () => {
-  if (nav) nav.classList.toggle('light', scrollY > 70);
+window.addEventListener('scroll', () => {
+  if (nav) nav.classList.toggle('light', window.scrollY > 70);
 });
 
 // Custom Cursor & Parallax Background
-addEventListener('mousemove', e => {
+window.addEventListener('mousemove', e => {
   if (c && r) {
     c.style.left = r.style.left = e.clientX + 'px';
     c.style.top = r.style.top = e.clientY + 'px';
   }
   if (bg) {
-    bg.style.transform = `scale(1.08) translate(${-(e.clientX - innerWidth / 2) / innerWidth * 12}px, ${-(e.clientY - innerHeight / 2) / innerHeight * 8}px)`;
+    bg.style.transform = `scale(1.08) translate(${-(e.clientX - window.innerWidth / 2) / window.innerWidth * 12}px, ${-(e.clientY - window.innerHeight / 2) / window.innerHeight * 8}px)`;
   }
 });
 
 // Scroll Reveal Animation
-const io = new IntersectionObserver(x => {
-  x.forEach(e => e.isIntersecting && e.target.classList.add('show'));
-}, { threshold: .08 });
+const io = new IntersectionObserver(entries => {
+  entries.forEach(e => e.isIntersecting && e.target.classList.add('show'));
+}, { threshold: 0.08 });
 
 document.querySelectorAll('.reveal').forEach(e => io.observe(e));
 
@@ -33,11 +33,13 @@ document.querySelectorAll('.reveal').forEach(e => io.observe(e));
 // 2. Google Translate Widget
 // ==========================================
 function googleTranslateElementInit() {
-  new google.translate.TranslateElement({
-    pageLanguage: 'en',
-    includedLanguages: 'en,th,zh-CN,ar',
-    autoDisplay: false
-  }, 'google_translate_element');
+  if (window.google && window.google.translate) {
+    new window.google.translate.TranslateElement({
+      pageLanguage: 'en',
+      includedLanguages: 'en,th,zh-CN,ar',
+      autoDisplay: false
+    }, 'google_translate_element');
+  }
 }
 
 function toggleLangDropdown() {
@@ -69,9 +71,9 @@ function changeLanguage(langCode, label) {
 }
 
 // ==========================================
-// 3. Modal Control
+// 3. Modal Control System
 // ==========================================
-const d = {
+const modalData = {
   property: [
     'International Property',
     'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=90',
@@ -129,9 +131,9 @@ const d = {
   ]
 };
 
-function openModal(k) {
-  let x = d[k] || ['Private Enquiry', null, 'Contact our advisory team.'];
-  let f = k === 'contact' ? `
+function openModal(key) {
+  const x = modalData[key] || ['Private Enquiry', null, 'Contact our advisory team.'];
+  const formHtml = key === 'contact' ? `
     <form class="form" onsubmit="event.preventDefault(); alert('Demo enquiry submitted.'); closeModal();">
       <input required placeholder="Full name">
       <input required type="email" placeholder="Email">
@@ -152,9 +154,9 @@ function openModal(k) {
     mb.innerHTML = `
       <div class="ey">GLOBAL ASSETS PALETTE</div>
       <h2>${x[0]}</h2>
-      ${x[1] ? `<img src="${x[1]}">` : ''}
+      ${x[1] ? `<img src="${x[1]}" alt="${x[0]}">` : ''}
       <p>${x[2]}</p>
-      ${f}
+      ${formHtml}
     `;
   }
   const modal = document.getElementById('modal');
@@ -167,13 +169,12 @@ function closeModal() {
 }
 
 // ==========================================
-// ROUTE FINDER NAVIGATION LOGIC
+// 4. Personal Route Finder Logic
 // ==========================================
-
 function updateBudgetSlider(val) {
   const badge = document.getElementById('budgetValue');
   if (badge) {
-    const formatted = parseInt(val).toLocaleString();
+    const formatted = parseInt(val, 10).toLocaleString();
     badge.textContent = `USD ${formatted}`;
   }
 }
@@ -189,41 +190,37 @@ function selectGoal(card, goalKey) {
 
 function selectRegion(btn, regionKey) {
   const container = btn.closest('.pill-group');
-  container.querySelectorAll('.editorial-pill').forEach(b => b.classList.remove('active'));
-  btn.classList.add('active');
+  if (container) {
+    container.querySelectorAll('.editorial-pill').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+  }
 }
 
-// 1. กดจากหน้า Intro ไปหน้าคำถาม
 function startMatcherQuiz() {
   document.getElementById('matcherIntroArea').style.display = 'none';
   document.getElementById('matcherFormArea').style.display = 'block';
   document.getElementById('matcherResultArea').style.display = 'none';
 }
 
-// 2. กดจากหน้าคำถามย้อนกลับไป Intro
 function returnToIntro() {
   document.getElementById('matcherFormArea').style.display = 'none';
   document.getElementById('matcherIntroArea').style.display = 'block';
   document.getElementById('matcherResultArea').style.display = 'none';
 }
 
-// 3. กดส่งคำตอบไปแสดงผลลัพธ์
 function generateMatches() {
   document.getElementById('matcherFormArea').style.display = 'none';
   document.getElementById('matcherResultArea').style.display = 'block';
-  
-  // Smooth Scroll ไปยังส่วนบนสุดของ Section
   document.getElementById('match').scrollIntoView({ behavior: 'smooth' });
 }
 
-// 4. กดแก้ไขพารามิเตอร์กลับไปหน้าคำถาม
 function resetMatcher() {
   document.getElementById('matcherResultArea').style.display = 'none';
   document.getElementById('matcherFormArea').style.display = 'block';
 }
 
 // ==========================================
-// 4. Dynamic Event Highlight Carousel System
+// 5. Section 07: Highlight Event Carousel
 // ==========================================
 let currentEventSlide = 0;
 let eventInterval;
@@ -332,23 +329,52 @@ function initEventsCarousel() {
   }
 }
 
-// ฟังการอัปเดตจากหน้า admin.html แบบเรียลไทม์
-window.addEventListener('storage', (e) => {
-  if (e.key === 'gbl_cms_events') {
-    initEventsCarousel();
-  }
-});
+// ==========================================
+// 6. Section 05: Minimal Flat Projects Carousel
+// ==========================================
+let currentFlatIndex = 0;
 
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initEventsCarousel);
-} else {
-  initEventsCarousel();
+function updateFlatCarousel() {
+  const track = document.getElementById('flatTrack');
+  const cards = document.querySelectorAll('.flat-card');
+  const dots = document.querySelectorAll('.f-dot');
+  if (!track || cards.length === 0) return;
+
+  const cardWidth = cards[0].getBoundingClientRect().width;
+  const gap = 24;
+  const maxIndex = window.innerWidth <= 850 ? cards.length - 1 : cards.length - 3;
+
+  if (currentFlatIndex > maxIndex) currentFlatIndex = 0;
+  if (currentFlatIndex < 0) currentFlatIndex = maxIndex;
+
+  const moveDistance = (cardWidth + gap) * currentFlatIndex;
+  track.style.transform = `translateX(-${moveDistance}px)`;
+
+  dots.forEach((dot, idx) => {
+    dot.classList.toggle('active', idx === currentFlatIndex);
+  });
 }
 
-// ==========================================
-// 5. Web Chatbot & Admin Sync System
-// ==========================================
+function nextFlatSlide() {
+  currentFlatIndex++;
+  updateFlatCarousel();
+}
 
+function prevFlatSlide() {
+  currentFlatIndex--;
+  updateFlatCarousel();
+}
+
+function setFlatSlide(index) {
+  currentFlatIndex = index;
+  updateFlatCarousel();
+}
+
+window.addEventListener('resize', updateFlatCarousel);
+
+// ==========================================
+// 7. Web Chatbot & Admin Sync System
+// ==========================================
 const defaultBotRules = [
   { keywords: ['ราคา', 'price', 'cost', 'เท่าไหร่'], response: 'ราคาและเงื่อนไขการลงทุนเริ่มต้นที่ USD 100k - 2M+ ขึ้นอยู่กับโครงการและประเทศที่คุณสนใจครับ สามารถเลือกดูรายละเอียดที่เมนู Advisory ได้ครับ' },
   { keywords: ['london', 'ลอนดอน', 'uk', 'อังกฤษ'], response: 'สำหรับอสังหาริมทรัพย์ใน London เรามี Prime Residences และ Off-market opportunities ย่านใจกลางเมืองครับ สนใจดูรายละเอียดหรือนัดรับคำปรึกษาเพิ่มเติมไหมครับ?' },
@@ -368,17 +394,15 @@ function toggleChat() {
 
 function sendChat() {
   const input = document.getElementById('ci');
+  if (!input) return;
   const text = input.value.trim();
   if (!text) return;
 
-  // 1. แสดงข้อความผู้ใช้ในหน้าเว็บ
   appendChatMessage(text, 'u');
   input.value = '';
 
-  // 2. บันทึกแชตลง Storage เพื่อส่งให้แอดมินหลังบ้าน
   syncWebChatToAdmin(text, 'user');
 
-  // 3. ตรวจสอบคีย์เวิร์ดเพื่อตอบกลับอัตโนมัติ
   setTimeout(() => {
     const botReply = matchBotKeyword(text);
     if (botReply) {
@@ -419,8 +443,13 @@ function syncWebChatToAdmin(text, sender) {
   localStorage.setItem('gbl_web_chat_history', JSON.stringify(chats));
 }
 
-// ฟังแชตตอบกลับจากแอดมินในหลังบ้าน
+// ==========================================
+// 8. Storage Sync & Initialization
+// ==========================================
 window.addEventListener('storage', (e) => {
+  if (e.key === 'gbl_cms_events') {
+    initEventsCarousel();
+  }
   if (e.key === 'gbl_web_chat_history') {
     const chats = JSON.parse(e.newValue || '[]');
     const lastMsg = chats[chats.length - 1];
@@ -430,4 +459,12 @@ window.addEventListener('storage', (e) => {
   }
 });
 
-
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', () => {
+    initEventsCarousel();
+    updateFlatCarousel();
+  });
+} else {
+  initEventsCarousel();
+  updateFlatCarousel();
+}
