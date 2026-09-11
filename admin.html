@@ -169,7 +169,7 @@
   <!-- ================= LOGIN OVERLAY ================= -->
   <div class="login-overlay" id="loginOverlay">
     <div class="login-card">
-      <img src="GBL.png" alt="Global Assets">
+      <img src="./GBL.png" alt="Global Assets">
       <h2>Admin Suite Login</h2>
       <p>Authorized Executive Personnel Only</p>
       <form onsubmit="event.preventDefault(); handleLogin();">
@@ -186,7 +186,7 @@
     <!-- Sidebar Navigation -->
     <aside class="sidebar">
       <div class="brand-header">
-        <img src="GBL.png" alt="Global Assets">
+        <img src="./GBL.png" alt="Global Assets">
         <span style="font-size: 10px; font-weight: 700; letter-spacing: 0.15em; color: var(--accent-gold);">SYSTEM</span>
       </div>
 
@@ -223,7 +223,7 @@
           <strong style="display:block; font-size:12px;">Advisor Ops</strong>
           <span style="color:var(--text-muted);">Role: Administrator</span>
         </div>
-        <a href="index.html" target="_blank" style="color: var(--accent-orange); text-decoration: none;">Site ↗</a>
+        <a href="./index.html" style="color: var(--accent-orange); text-decoration: none;">Site ↗</a>
       </div>
     </aside>
 
@@ -369,7 +369,7 @@
               <label style="display:block; font-size:11px; text-transform:uppercase; margin-bottom:8px; color:var(--text-muted);">Audience Segment</label>
               <select id="emailSegment" class="input-field">
                 <option>All Private Subscribers (2,850 Clients)</option>
-                <option>High Net Worth Segment (> USD 2M)</option>
+                <option>High Net Worth Segment (&gt; USD 2M)</option>
                 <option>Citizenship & Residency Interested List</option>
               </select>
             </div>
@@ -581,7 +581,6 @@
       currentChat.messages.push({ type: 'out', text: text });
       currentChat.last = text;
 
-      // ถ้าเปิดแชตเว็บอยู่ ให้บันทึกส่งกลับหน้าเว็บด้วย
       if (currentChat.id === 99) {
         let history = JSON.parse(localStorage.getItem('gbl_web_chat_history') || '[]');
         history.push({ sender: 'admin', text: text, time: new Date().toLocaleTimeString() });
