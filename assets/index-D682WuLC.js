@@ -2822,7 +2822,7 @@ This typically indicates that your device does not have a healthy Internet conne
           min-height: 480px;
           height: 100%;
           overflow: hidden;
-          background: #0D0D2B;
+          background: #08081E;
         }
 
         .event-img {
@@ -2964,6 +2964,7 @@ This typically indicates that your device does not have a healthy Internet conne
           background: #FE6E46;
         }
 
+        /* Modal Styles */
         .event-modal-overlay {
           position: fixed;
           inset: 0;
@@ -3009,17 +3010,17 @@ This typically indicates that your device does not have a healthy Internet conne
 
         .event-modal-img-wrapper {
           width: 100%;
-          height: 220px;
+          height: 240px;
           overflow: hidden;
           border-radius: 12px;
           margin-bottom: 16px;
-          background: #050515;
+          background: #08081E;
         }
 
         .event-modal-img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
           object-position: center;
           display: block;
         }
@@ -3064,22 +3065,36 @@ This typically indicates that your device does not have a healthy Internet conne
           border-radius: 100px;
         }
 
+        /* 📱 Responsive Mobile */
         @media (max-width: 860px) {
           .event-slide-row.active {
             grid-template-columns: 1fr;
             min-height: auto;
           }
+
+          /* 🎯 ป้องกันการ Crop รูปภาพบนมือถือ */
           .event-img-box {
-            min-height: 260px;
-            height: 260px;
+            position: relative;
+            width: 100%;
+            height: 300px;
+            min-height: 300px;
+            background: #08081E;
           }
+
+          .event-img {
+            object-fit: contain !important;
+            object-position: center;
+          }
+
           .event-text-box {
-            padding: 28px 20px;
+            padding: 24px 20px;
           }
+
           .event-bottom-bar {
             flex-direction: row;
             align-items: center;
           }
+
           .event-modal-grid {
             grid-template-columns: 1fr;
           }
