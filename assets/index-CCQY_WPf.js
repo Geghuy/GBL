@@ -3439,65 +3439,52 @@ This typically indicates that your device does not have a healthy Internet conne
             font-size: 15px !important;
           }
         }
-      `})]})}function DF({openModal:t}){const[e,n]=ne.useState(!1),[r,i]=ne.useState({name:"",email:"",phone:"",message:""}),[s,o]=ne.useState(!1),a={line:"https://lin.ee/YcqOqt1",facebook:"https://www.facebook.com/globalassets.thailand/?locale=th_TH",instagram:"https://www.instagram.com/globalassets.thailand?utm_source=ig_web_button_share_sheet&psln=ZDNlZDc0MzIxNw=="},u=p=>{window.open(p,"_blank","noopener,noreferrer")},B=p=>{const{name:g,value:x}=p.target;i(w=>({...w,[g]:x}))},d=p=>{p.preventDefault(),console.log("Submitted Inquiry Data:",r),o(!0),t&&t("contact")};return c.jsxs("section",{className:"statement",id:"contact",children:[c.jsxs("div",{className:"wrap reveal",children:[c.jsx("div",{className:"ey",children:"Contact Us"}),c.jsxs("h2",{className:"title",children:["Your next chapter",c.jsx("br",{}),"can be ",c.jsx("em",{children:"global."})]}),c.jsx("p",{children:"Tell us where you want to go, what you want to protect and what you want your capital to achieve. Choose your preferred channel to start the conversation."}),c.jsxs("div",{className:"statement-contact-actions",children:[c.jsx("button",{className:"pill line-btn",onClick:()=>u(a.line),children:c.jsx("span",{children:"LINE Official ↗"})}),c.jsx("button",{className:`pill email-btn ${e?"active":""}`,onClick:()=>{n(!e),o(!1)},children:c.jsx("span",{children:e?"✕ Close Form":"Send Inquiry Form"})}),c.jsx("button",{className:"pill social-btn",onClick:()=>u(a.facebook),children:c.jsx("span",{children:"Facebook ↗"})}),c.jsx("button",{className:"pill social-btn",onClick:()=>u(a.instagram),children:c.jsx("span",{children:"Instagram ↗"})})]}),e&&c.jsx("div",{className:"inquiry-form-wrapper",children:s?c.jsxs("div",{className:"form-success-message",children:[c.jsx("span",{className:"success-icon",children:"✦"}),c.jsx("h3",{children:"Thank You for Reaching Out"}),c.jsx("p",{children:"Your inquiry has been submitted successfully. Our advisory team will contact you shortly."})]}):c.jsxs("form",{className:"inquiry-form",onSubmit:d,children:[c.jsx("h3",{className:"form-heading",children:"Private Advisory Inquiry"}),c.jsx("p",{className:"form-subheading",children:"Please fill out your details below and our advisors will respond within 24 hours."}),c.jsxs("div",{className:"form-grid",children:[c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Full Name *"}),c.jsx("input",{type:"text",name:"name",required:!0,placeholder:"e.g. John Doe",value:r.name,onChange:B})]}),c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Email Address *"}),c.jsx("input",{type:"email",name:"email",required:!0,placeholder:"john@example.com",value:r.email,onChange:B})]})]}),c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Phone Number (Optional)"}),c.jsx("input",{type:"tel",name:"phone",placeholder:"+66 81 234 5678",value:r.phone,onChange:B})]}),c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Your Message / Preferred Destination *"}),c.jsx("textarea",{name:"message",rows:"4",required:!0,placeholder:"Tell us about your investment or residency goals...",value:r.message,onChange:B})]}),c.jsx("button",{type:"submit",className:"pill submit-btn",children:c.jsx("span",{children:"SUBMIT INQUIRY ↗"})})]})})]}),c.jsx("style",{children:`
+      `})]})}function DF({openModal:t}){const[e,n]=ne.useState(!1),[r,i]=ne.useState({name:"",email:"",phone:"",message:""}),[s,o]=ne.useState(!1),a={line:"https://lin.ee/YcqOqt1",facebook:"https://www.facebook.com/globalassets.thailand/?locale=th_TH",instagram:"https://www.instagram.com/globalassets.thailand?utm_source=ig_web_button_share_sheet&psln=ZDNlZDc0MzIxNw=="},u=p=>{window.open(p,"_blank","noopener,noreferrer")},B=p=>{const{name:g,value:x}=p.target;i(w=>({...w,[g]:x}))},d=p=>{p.preventDefault(),console.log("Submitted Inquiry Data:",r),o(!0),t&&t("contact")};return c.jsxs("section",{className:"statement",id:"contact",children:[c.jsxs("div",{className:"wrap reveal",children:[c.jsx("div",{className:"ey",children:"Contact Us"}),c.jsxs("h2",{className:"title",children:["Your next chapter",c.jsx("br",{}),"can be ",c.jsx("em",{children:"global."})]}),c.jsx("p",{children:"Tell us where you want to go, what you want to protect and what you want your capital to achieve. Choose your preferred channel to start the conversation."}),c.jsxs("div",{className:"statement-contact-actions",children:[c.jsx("button",{type:"button",className:"pill contact-channel-btn",onClick:()=>u(a.line),children:c.jsx("span",{children:"LINE Official ↗"})}),c.jsx("button",{type:"button",className:`pill contact-channel-btn ${e?"active":""}`,onClick:()=>{n(!e),o(!1)},children:c.jsx("span",{children:e?"✕ Close Form":"Send Inquiry Form ↗"})}),c.jsx("button",{type:"button",className:"pill contact-channel-btn",onClick:()=>u(a.facebook),children:c.jsx("span",{children:"Facebook ↗"})}),c.jsx("button",{type:"button",className:"pill contact-channel-btn",onClick:()=>u(a.instagram),children:c.jsx("span",{children:"Instagram ↗"})})]}),e&&c.jsx("div",{className:"inquiry-form-wrapper",children:s?c.jsxs("div",{className:"form-success-message",children:[c.jsx("span",{className:"success-icon",children:"✦"}),c.jsx("h3",{children:"Thank You for Reaching Out"}),c.jsx("p",{children:"Your inquiry has been submitted successfully. Our advisory team will contact you shortly."})]}):c.jsxs("form",{className:"inquiry-form",onSubmit:d,children:[c.jsx("h3",{className:"form-heading",children:"Private Advisory Inquiry"}),c.jsx("p",{className:"form-subheading",children:"Please fill out your details below and our advisors will respond within 24 hours."}),c.jsxs("div",{className:"form-grid",children:[c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Full Name *"}),c.jsx("input",{type:"text",name:"name",required:!0,placeholder:"e.g. John Doe",value:r.name,onChange:B})]}),c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Email Address *"}),c.jsx("input",{type:"email",name:"email",required:!0,placeholder:"john@example.com",value:r.email,onChange:B})]})]}),c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Phone Number (Optional)"}),c.jsx("input",{type:"tel",name:"phone",placeholder:"+66 81 234 5678",value:r.phone,onChange:B})]}),c.jsxs("div",{className:"form-group",children:[c.jsx("label",{children:"Your Message / Preferred Destination *"}),c.jsx("textarea",{name:"message",rows:"4",required:!0,placeholder:"Tell us about your investment or residency goals...",value:r.message,onChange:B})]}),c.jsx("button",{type:"submit",className:"pill submit-btn",children:c.jsx("span",{children:"SUBMIT INQUIRY ↗"})})]})})]}),c.jsx("style",{children:`
         .statement-contact-actions {
           display: flex;
           flex-wrap: wrap;
           justify-content: center;
-          gap: 12px;
-          margin-top: 28px;
+          gap: 14px;
+          margin-top: 32px;
         }
 
-        .statement-contact-actions .pill {
+        /* ดีไซน์มาตรฐานสำหรับทุกปุ่มในส่วน Contact ให้เหมือนกันเป๊ะ */
+        .statement-contact-actions .contact-channel-btn {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
+          justify-content: center;
           cursor: pointer;
-          padding: 12px 24px;
+          padding: 12px 26px;
           font-size: 11px;
+          font-weight: 600;
           letter-spacing: 0.15em;
           text-transform: uppercase;
           border-radius: 100px;
-          transition: all 0.3s ease;
+          background: rgba(255, 255, 255, 0.05);
+          color: #FFFFFF;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
         }
 
-        .statement-contact-actions .line-btn {
+        .statement-contact-actions .contact-channel-btn:hover {
           background: #FE6E46;
+          border-color: #FE6E46;
           color: #FFFFFF;
-          border: 1px solid #FE6E46;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 20px rgba(254, 110, 70, 0.35);
         }
 
-        .statement-contact-actions .line-btn:hover {
-          background: #FFFFFF;
-          color: #0F0F2E;
-          border-color: #FFFFFF;
-        }
-
-        .statement-contact-actions .email-btn {
-          background: rgba(255, 255, 255, 0.08);
-          color: #FFFFFF;
-          border: 1px solid rgba(255, 255, 255, 0.25);
-          backdrop-filter: blur(8px);
-        }
-
-        .statement-contact-actions .email-btn:hover,
-        .statement-contact-actions .email-btn.active {
+        /* สไตล์เมื่อเปิดฟอร์มค้างไว้ */
+        .statement-contact-actions .contact-channel-btn.active {
           background: #FE6E46;
           border-color: #FE6E46;
           color: #FFFFFF;
         }
 
-        .statement-contact-actions .social-btn {
-          background: transparent;
-          color: rgba(244, 241, 232, 0.85);
-          border: 1px solid rgba(255, 255, 255, 0.15);
-        }
-
-        .statement-contact-actions .social-btn:hover {
-          border-color: #FE6E46;
-          color: #FE6E46;
-        }
-
+        /* 📝 INQUIRY FORM STYLES */
         .inquiry-form-wrapper {
           margin-top: 36px;
           background: rgba(15, 15, 46, 0.6);
@@ -3580,6 +3567,9 @@ This typically indicates that your device does not have a healthy Internet conne
           font-weight: 700;
           letter-spacing: 0.18em;
           margin-top: 8px;
+          border-radius: 100px;
+          cursor: pointer;
+          transition: all 0.3s ease;
         }
 
         .submit-btn:hover {
@@ -3624,8 +3614,7 @@ This typically indicates that your device does not have a healthy Internet conne
             align-items: stretch;
           }
 
-          .statement-contact-actions .pill {
-            justify-content: center;
+          .statement-contact-actions .contact-channel-btn {
             width: 100%;
           }
 
